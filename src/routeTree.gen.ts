@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GameRouteImport } from './routes/game'
+import { Route as GameIntroRouteImport } from './routes/game-intro'
+import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as WhatsappRouteImport } from './routes/whatsapp'
+import { Route as WinRouteImport } from './routes/win'
+import { Route as AppProgressRouteImport } from './routes/app.progress'
+import { Route as AppRoadmapRouteImport } from './routes/app.roadmap'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GameRoute = GameRouteImport.update({
+  id: '/game',
+  path: '/game',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameIntroRoute = GameIntroRouteImport.update({
+  id: '/game-intro',
+  path: '/game-intro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleRoute = ScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhatsappRoute = WhatsappRouteImport.update({
+  id: '/whatsapp',
+  path: '/whatsapp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WinRoute = WinRouteImport.update({
+  id: '/win',
+  path: '/win',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppProgressRoute = AppProgressRouteImport.update({
+  id: '/app/progress',
+  path: '/app/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoadmapRoute = AppRoadmapRouteImport.update({
+  id: '/app/roadmap',
+  path: '/app/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
+  '/game-intro': typeof GameIntroRoute
+  '/schedule': typeof ScheduleRoute
+  '/whatsapp': typeof WhatsappRoute
+  '/win': typeof WinRoute
+  '/app/progress': typeof AppProgressRoute
+  '/app/roadmap': typeof AppRoadmapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
+  '/game-intro': typeof GameIntroRoute
+  '/schedule': typeof ScheduleRoute
+  '/whatsapp': typeof WhatsappRoute
+  '/win': typeof WinRoute
+  '/app/progress': typeof AppProgressRoute
+  '/app/roadmap': typeof AppRoadmapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
+  '/game-intro': typeof GameIntroRoute
+  '/schedule': typeof ScheduleRoute
+  '/whatsapp': typeof WhatsappRoute
+  '/win': typeof WinRoute
+  '/app/progress': typeof AppProgressRoute
+  '/app/roadmap': typeof AppRoadmapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/game'
+    | '/game-intro'
+    | '/schedule'
+    | '/whatsapp'
+    | '/win'
+    | '/app/progress'
+    | '/app/roadmap'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/game'
+    | '/game-intro'
+    | '/schedule'
+    | '/whatsapp'
+    | '/win'
+    | '/app/progress'
+    | '/app/roadmap'
+  id:
+    | '__root__'
+    | '/'
+    | '/game'
+    | '/game-intro'
+    | '/schedule'
+    | '/whatsapp'
+    | '/win'
+    | '/app/progress'
+    | '/app/roadmap'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GameRoute: typeof GameRoute
+  GameIntroRoute: typeof GameIntroRoute
+  ScheduleRoute: typeof ScheduleRoute
+  WhatsappRoute: typeof WhatsappRoute
+  WinRoute: typeof WinRoute
+  AppProgressRoute: typeof AppProgressRoute
+  AppRoadmapRoute: typeof AppRoadmapRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/game': {
+      id: '/game'
+      path: '/game'
+      fullPath: '/game'
+      preLoaderRoute: typeof GameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-intro': {
+      id: '/game-intro'
+      path: '/game-intro'
+      fullPath: '/game-intro'
+      preLoaderRoute: typeof GameIntroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedule': {
+      id: '/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/whatsapp': {
+      id: '/whatsapp'
+      path: '/whatsapp'
+      fullPath: '/whatsapp'
+      preLoaderRoute: typeof WhatsappRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/win': {
+      id: '/win'
+      path: '/win'
+      fullPath: '/win'
+      preLoaderRoute: typeof WinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/progress': {
+      id: '/app/progress'
+      path: '/app/progress'
+      fullPath: '/app/progress'
+      preLoaderRoute: typeof AppProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/roadmap': {
+      id: '/app/roadmap'
+      path: '/app/roadmap'
+      fullPath: '/app/roadmap'
+      preLoaderRoute: typeof AppRoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GameRoute: GameRoute,
+  GameIntroRoute: GameIntroRoute,
+  ScheduleRoute: ScheduleRoute,
+  WhatsappRoute: WhatsappRoute,
+  WinRoute: WinRoute,
+  AppProgressRoute: AppProgressRoute,
+  AppRoadmapRoute: AppRoadmapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
