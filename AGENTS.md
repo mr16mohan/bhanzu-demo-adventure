@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Derive mission labels and celebration copy from shared demo-state helpers so every screen stays synchronized with progress.

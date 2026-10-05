@@ -39,7 +39,7 @@ function Schedule() {
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">A 1:1 demo with a Bhanzu teacher, built around how your child thinks.</p>
           <ul className="mt-8 space-y-3 text-foreground">
-            {["45-minute live session", "Personalised learning report", "No payment required"].map((t) => (
+            {["60-minute live session", "Personalised learning report", "No payment required"].map((t) => (
               <li key={t} className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 text-go-deep" /> {t}
               </li>
