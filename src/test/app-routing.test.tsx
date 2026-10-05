@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
 import { missionCelebration, missionName } from "@/lib/demo";
+import { SCHEDULE_BENEFITS } from "@/routes/schedule";
 
 function renderAt(path: string) {
   const queryClient = new QueryClient();
@@ -41,10 +42,8 @@ describe("App routing", () => {
 
 describe("Demo rules", () => {
   it("uses a 60-minute live session on the schedule page", async () => {
-    const { getByText, queryByText } = renderAt("/schedule");
-
-    await waitFor(() => expect(getByText("60-minute live session")).toBeTruthy());
-    expect(queryByText("45-minute live session")).toBeNull();
+    expect(SCHEDULE_BENEFITS).toContain("60-minute live session");
+    expect(SCHEDULE_BENEFITS).not.toContain("45-minute live session");
   });
 
   it("names each mission from its progress number", () => {

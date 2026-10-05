@@ -73,23 +73,22 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(initial);
   const update = useCallback((p: Partial<DemoState>) => setState((s) => ({ ...s, ...p })), []);
   // Queues the WhatsApp celebration message the instant a win button fires.
-  const completeMission = useCallback(
-    () =>
-      setState((s) => ({
+  const completeMission = useCallback(() => {
+    const time = nowTime();
+    setState((s) => ({
         ...s,
         missions: s.missions + 1,
-        celebrationAt: nowTime(),
+        celebrationAt: time,
         missionCelebrations: [
           ...s.missionCelebrations,
           {
             missionNumber: s.missions + 1,
-            time: nowTime(),
+            time,
             message: missionCelebration(s.childName, s.missions + 1),
           },
         ],
-      })),
-    [],
-  );
+      }));
+  }, []);
   const reset = useCallback(() => setState(initial()), []);
   const value = useMemo(() => ({ ...state, update, completeMission, reset }), [state, update, completeMission, reset]);
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;

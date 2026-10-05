@@ -10,12 +10,15 @@ export const Route = createFileRoute("/schedule")({
       { name: "description", content: "Schedule a free live math demo class for your child with Bhanzu." },
       { property: "og:title", content: "Book a Free Demo Class — Bhanzu" },
       { property: "og:description", content: "Schedule a free live math demo class for your child." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Schedule,
 });
 
 const field = "mt-1.5 w-full rounded-xl border bg-card px-4 py-3 text-foreground outline-none transition focus:border-orange focus:ring-2 focus:ring-orange/30";
+export const SCHEDULE_BENEFITS = ["60-minute live session", "Personalised learning report", "No payment required"];
 
 function Schedule() {
   const d = useDemo();
@@ -39,7 +42,7 @@ function Schedule() {
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">A 1:1 demo with a Bhanzu teacher, built around how your child thinks.</p>
           <ul className="mt-8 space-y-3 text-foreground">
-            {["60-minute live session", "Personalised learning report", "No payment required"].map((t) => (
+            {SCHEDULE_BENEFITS.map((t) => (
               <li key={t} className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 text-go-deep" /> {t}
               </li>

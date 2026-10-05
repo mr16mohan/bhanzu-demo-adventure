@@ -11,6 +11,8 @@ export const Route = createFileRoute("/game-intro")({
       { name: "description", content: "Ready for your first math mission? Tap play!" },
       { property: "og:title", content: "Your First Mission — Bhanzu" },
       { property: "og:description", content: "A 3-minute math mission for curious kids." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Intro,

@@ -12,6 +12,8 @@ export const Route = createFileRoute("/win")({
       { name: "description", content: "Mission complete! Three stars earned." },
       { property: "og:title", content: "You're a Genius! — Bhanzu" },
       { property: "og:description", content: "Mission complete with three shiny stars." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Win,

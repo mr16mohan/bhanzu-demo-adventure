@@ -12,6 +12,8 @@ export const Route = createFileRoute("/game")({
       { name: "description", content: "Count the apples and crack the mission." },
       { property: "og:title", content: "Math Mission — Bhanzu" },
       { property: "og:description", content: "A playful counting mission for kids aged 6-9." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Game,
