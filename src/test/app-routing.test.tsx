@@ -4,6 +4,8 @@ import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
+import { missionCelebration, missionName } from "@/lib/demo";
+import { SCHEDULE_BENEFITS } from "@/routes/schedule";
 
 function renderAt(path: string) {
   const queryClient = new QueryClient();
@@ -35,5 +37,21 @@ describe("App routing", () => {
     const { container } = renderAt("/this-route-does-not-exist");
 
     await waitFor(() => expect(container.firstChild).not.toBeNull());
+  });
+});
+
+describe("Demo rules", () => {
+  it("uses a 60-minute live session on the schedule page", async () => {
+    expect(SCHEDULE_BENEFITS).toContain("60-minute live session");
+    expect(SCHEDULE_BENEFITS).not.toContain("45-minute live session");
+  });
+
+  it("names each mission from its progress number", () => {
+    expect(missionName(1)).toBe("first");
+    expect(missionName(2)).toBe("second");
+  });
+
+  it("uses the matching mission name in celebration messages", () => {
+    expect(missionCelebration("Aarav", 2)).toContain("completed the second mission");
   });
 });

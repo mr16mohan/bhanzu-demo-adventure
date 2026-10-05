@@ -2,7 +2,7 @@ import { useNavigate, Link } from "@tanstack/react-router";
 import { ArrowLeft, Video, Phone, MoreVertical, Smile, Paperclip, Camera, Mic, CheckCheck, Bell, CalendarClock, Gamepad2, Smartphone, Moon } from "lucide-react";
 import type { ReactNode } from "react";
 import { LogoMark } from "./brand";
-import { formatDate, useDemo } from "@/lib/demo";
+import { formatDate, missionName, useDemo } from "@/lib/demo";
 import { cn } from "@/lib/utils";
 
 function Bubble({ out, time, children, actions }: { out?: boolean; time: string; children: ReactNode; actions?: ReactNode }) {
@@ -91,25 +91,26 @@ export function WhatsAppThread({ className }: { className?: string }) {
           <p className="mt-1">Can you crack your first math mission? ⭐</p>
         </Bubble>
 
-        {d.celebrationAt && (
+        {d.missionCelebrations.map((celebration, index) => (
           <Bubble
+            key={`${celebration.missionNumber}-${celebration.time}`}
             out
-            time={d.celebrationAt}
-            actions={
+            time={celebration.time}
+            actions={index === d.missionCelebrations.length - 1 ? (
               <>
                 <Action icon={<Smartphone className="h-4 w-4" />} onClick={() => navigate({ to: "/app/roadmap" })}>Continue in App</Action>
                 <Action icon={<Moon className="h-4 w-4" />} onClick={() => d.update({ tomorrowReply: true })}>Continue Tomorrow</Action>
               </>
-            }
+            ) : undefined}
           >
-            Hey {d.parentName}! 🎉 {d.childName} is a genius, completed the first game!
+            {celebration.message}
           </Bubble>
-        )}
+        ))}
 
         {d.tomorrowReply && (
           <>
             <Bubble time={d.celebrationAt ?? ""}>Continue Tomorrow</Bubble>
-            <Bubble out time={d.celebrationAt ?? ""}>Sounds great! 🌙 Mission 2 will be waiting for {d.childName} tomorrow.</Bubble>
+            <Bubble out time={d.celebrationAt ?? ""}>Sounds great! 🌙 The {missionName(d.missions + 1)} mission will be waiting for {d.childName} tomorrow.</Bubble>
           </>
         )}
       </div>

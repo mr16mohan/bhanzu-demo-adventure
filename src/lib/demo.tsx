@@ -9,9 +9,33 @@ export type DemoState = {
   scheduled: boolean;
   reminderSet: boolean;
   celebrationAt: string | null;
+  missionCelebrations: MissionCelebration[];
   tomorrowReply: boolean;
   missions: number;
 };
+
+export type MissionCelebration = {
+  missionNumber: number;
+  time: string;
+  message: string;
+};
+
+const ORDINAL_WORDS = ["zeroth", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
+const ENCOURAGEMENTS = [
+  "What a brilliant start",
+  "Amazing work — you're getting even sharper",
+  "Fantastic thinking — your math powers are growing",
+  "Outstanding job — you keep finding the answer",
+];
+
+export function missionName(missionNumber: number) {
+  return ORDINAL_WORDS[missionNumber] ?? `${missionNumber}th`;
+}
+
+export function missionCelebration(childName: string, missionNumber: number) {
+  const encouragement = ENCOURAGEMENTS[(missionNumber - 1) % ENCOURAGEMENTS.length];
+  return `Hey! 🎉 ${childName} completed the ${missionName(missionNumber)} mission! ${encouragement}, ${childName}! ⭐`;
+}
 
 const initial = (): DemoState => {
   const d = new Date();
@@ -25,6 +49,7 @@ const initial = (): DemoState => {
     scheduled: false,
     reminderSet: false,
     celebrationAt: null,
+    missionCelebrations: [],
     tomorrowReply: false,
     missions: 0,
   };
@@ -48,15 +73,22 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(initial);
   const update = useCallback((p: Partial<DemoState>) => setState((s) => ({ ...s, ...p })), []);
   // Queues the WhatsApp celebration message the instant a win button fires.
-  const completeMission = useCallback(
-    () =>
-      setState((s) => ({
+  const completeMission = useCallback(() => {
+    const time = nowTime();
+    setState((s) => ({
         ...s,
         missions: s.missions + 1,
-        celebrationAt: s.celebrationAt ?? nowTime(),
-      })),
-    [],
-  );
+        celebrationAt: time,
+        missionCelebrations: [
+          ...s.missionCelebrations,
+          {
+            missionNumber: s.missions + 1,
+            time,
+            message: missionCelebration(s.childName, s.missions + 1),
+          },
+        ],
+      }));
+  }, []);
   const reset = useCallback(() => setState(initial()), []);
   const value = useMemo(() => ({ ...state, update, completeMission, reset }), [state, update, completeMission, reset]);
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;

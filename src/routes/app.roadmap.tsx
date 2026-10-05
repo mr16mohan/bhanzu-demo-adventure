@@ -11,6 +11,8 @@ export const Route = createFileRoute("/app/roadmap")({
       { name: "description", content: "Your child's math mission roadmap in the Bhanzu app." },
       { property: "og:title", content: "Mission Map — Bhanzu App" },
       { property: "og:description", content: "Winding path of math missions, one star at a time." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Roadmap,

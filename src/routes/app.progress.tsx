@@ -11,6 +11,8 @@ export const Route = createFileRoute("/app/progress")({
       { name: "description", content: "Stars earned and missions completed in the Bhanzu app." },
       { property: "og:title", content: "Progress — Bhanzu App" },
       { property: "og:description", content: "Track stars and completed math missions." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Progress,
