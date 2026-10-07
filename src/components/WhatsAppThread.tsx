@@ -16,6 +16,7 @@ import {
 import type { ReactNode } from "react";
 import { LogoMark } from "./brand";
 import { formatDate, useDemo } from "@/lib/demo";
+import { channelMessages } from "@/lib/channel-messages";
 import { cn } from "@/lib/utils";
 
 function Bubble({
@@ -88,14 +89,13 @@ export function WhatsAppThread({
   onOpenGame,
 }: {
   className?: string;
-  onBack?: () => void;
-  onOpenGame?: () => void;
+  onBack?: (() => void) | undefined;
+  onOpenGame?: (() => void) | undefined;
 }) {
   const navigate = useNavigate();
   const d = useDemo();
   const whatsappMessages = channelMessages(d, "whatsapp");
   const dayBefore = whatsappMessages.find((message) => message.kind === "reminder");
-  const dailyPuzzles = whatsappMessages.filter((message) => message.kind === "daily-puzzle");
   return (
     <div className={cn("flex h-full w-full flex-col", className)}>
       <header className="flex items-center gap-2 bg-wa-header px-2 py-2 text-on-brand">

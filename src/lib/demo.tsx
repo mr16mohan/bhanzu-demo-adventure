@@ -15,11 +15,7 @@ export type DemoState = {
   missionCelebrations: MissionCelebration[];
   tomorrowReply: boolean;
   missions: number;
-  preferredChannel: PreferredChannel;
 };
-
-export type MessageChannel = "whatsapp" | "email" | "sms";
-export type PreferredChannel = MessageChannel | "none";
 
 export type MissionCelebration = {
   missionNumber: number;
@@ -29,19 +25,8 @@ export type MissionCelebration = {
 };
 
 export type Channel = "whatsapp" | "email" | "sms";
+export type MessageChannel = Channel;
 export type PreferredChannel = Channel | "none";
-export type CriticalMessage = {
-  kind: "booking" | "invite" | "reminder";
-  subject: string;
-  body: string;
-  link?: "/game-intro";
-};
-export type ChannelPreviewMessage = {
-  kind: "booking" | "invite" | "reminder" | "appreciation" | "puzzle";
-  subject: string;
-  body: string;
-  link?: "/game-intro";
-};
 
 const ORDINAL_WORDS = [
   "zeroth",
@@ -70,14 +55,6 @@ export function missionCelebration(childName: string, missionNumber: number) {
   return `Hey! 🎉 ${childName} completed the ${missionName(missionNumber)} mission! ${encouragement}, ${childName}! ⭐`;
 }
 
-export function appreciationChannel(preferredChannel: PreferredChannel): MessageChannel {
-  return preferredChannel === "none" ? "sms" : preferredChannel;
-}
-
-export function dailyPuzzleChannel(preferredChannel: PreferredChannel): MessageChannel {
-  return preferredChannel === "none" ? "whatsapp" : preferredChannel;
-}
-
 const initial = (): DemoState => {
   const d = new Date();
   d.setDate(d.getDate() + 4);
@@ -96,7 +73,6 @@ const initial = (): DemoState => {
     missionCelebrations: [],
     tomorrowReply: false,
     missions: 0,
-    preferredChannel: "none",
   };
 };
 
@@ -118,81 +94,8 @@ export function appreciationChannel(preferredChannel: PreferredChannel): Channel
   return preferredChannel === "none" ? "sms" : preferredChannel;
 }
 
-export function puzzleChannel(preferredChannel: PreferredChannel): Channel {
+export function dailyPuzzleChannel(preferredChannel: PreferredChannel): Channel {
   return preferredChannel === "none" ? "whatsapp" : preferredChannel;
-}
-
-export function criticalMessages(demo: DemoState): CriticalMessage[] {
-  return [
-    {
-      kind: "booking",
-      subject: "Demo class confirmed",
-      body: `Demo class confirmed for ${demo.childName} on ${formatDate(demo.demoDate)} at ${demo.demoTime} IST.`,
-    },
-    {
-      kind: "invite",
-      subject: `Your first mission is ready, ${demo.childName}!`,
-      body: `A 3-minute math mission is ready for ${demo.childName}. Open the link below to get started.`,
-      link: "/game-intro",
-    },
-    {
-      kind: "reminder",
-      subject: "Your demo is tomorrow",
-      body: `A reminder: ${demo.childName}'s Bhanzu demo is tomorrow at ${demo.demoTime} IST.`,
-    },
-  ];
-}
-
-export function dailyPuzzleMessages(demoDate: Date, childName: string) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const demoDay = new Date(demoDate);
-  demoDay.setHours(0, 0, 0, 0);
-  const daysRemaining = Math.max(0, Math.ceil((demoDay.getTime() - today.getTime()) / 86_400_000));
-
-  return Array.from({ length: daysRemaining }, (_, index) => {
-    const date = new Date(today);
-    date.setDate(date.getDate() + index + 1);
-    return {
-      date,
-      message: `${childName}, your puzzle for ${formatDate(date)} is ready! Open: /game-intro`,
-    };
-  });
-}
-
-export function channelMessages(demo: DemoState, channel: Channel): ChannelPreviewMessage[] {
-  const messages: ChannelPreviewMessage[] = criticalMessages(demo).map(
-    ({ kind, subject, body, link }) => ({
-      kind,
-      subject,
-      body,
-      ...(link ? { link } : {}),
-    }),
-  );
-
-  messages.push(
-    ...demo.missionCelebrations
-      .filter((celebration) => celebration.channel === channel)
-      .map((celebration) => ({
-        kind: "appreciation" as const,
-        subject: `${demo.childName} completed a mission!`,
-        body: celebration.message,
-        link: "/game-intro" as const,
-      })),
-  );
-
-  if (puzzleChannel(demo.preferredChannel) === channel) {
-    messages.push(
-      ...dailyPuzzleMessages(demo.demoDate, demo.childName).map(({ date, message }) => ({
-        kind: "puzzle" as const,
-        subject: `Daily puzzle · ${formatDate(date)}`,
-        body: message,
-        link: "/game-intro" as const,
-      })),
-    );
-  }
-
-  return messages;
 }
 
 export function DemoProvider({ children }: { children: ReactNode }) {

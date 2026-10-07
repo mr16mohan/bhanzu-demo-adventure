@@ -34,9 +34,9 @@ export function PhoneHomeScreen({
 }: {
   embedded?: boolean;
   interactive?: boolean;
-  onRefreshBrowser?: () => void;
+  onRefreshBrowser?: (() => void) | undefined;
   showSmsNotification?: boolean;
-  emailMessage?: "mission-progress";
+  emailMessage?: "mission-progress" | undefined;
 }) {
   const [openApp, setOpenApp] = useState<"home" | "whatsapp" | "sms" | "email">("home");
   const { missionCelebrations } = useDemo();

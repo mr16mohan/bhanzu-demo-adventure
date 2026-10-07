@@ -23,7 +23,7 @@ export function GameLayout({
   children: ReactNode;
   interactivePhone?: boolean;
   showSmsNotification?: boolean;
-  emailMessage?: "mission-progress";
+  emailMessage?: "mission-progress" | undefined;
 }) {
   const router = useRouter();
   const [view, setView] = useState<"mobile" | "tablet">("mobile");
@@ -37,7 +37,7 @@ export function GameLayout({
           interactive={interactivePhone}
           onRefreshBrowser={refreshBrowser}
           showSmsNotification={showSmsNotification}
-          emailMessage={emailMessage}
+          {...(emailMessage ? { emailMessage } : {})}
         />
       </aside>
       <main className="flex min-w-0 flex-1 flex-col items-center gap-3 p-2 md:p-5">

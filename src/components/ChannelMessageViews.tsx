@@ -8,7 +8,8 @@ import {
   Search,
   Trash2,
 } from "lucide-react";
-import { channelMessages, formatDate, useDemo } from "@/lib/demo";
+import { formatDate, useDemo } from "@/lib/demo";
+import { channelMessages } from "@/lib/channel-messages";
 
 function ChannelHeader({
   title,
@@ -17,7 +18,7 @@ function ChannelHeader({
 }: {
   title: string;
   icon: typeof Mail | typeof MessageSquare;
-  onBack?: () => void;
+  onBack?: (() => void) | undefined;
 }) {
   return (
     <header className="flex items-center gap-3 border-b border-black/5 bg-[#f7f7f9] px-4 py-3">
@@ -70,7 +71,7 @@ export function SmsMessages({
 }: {
   embedded?: boolean;
   onBack?: () => void;
-  onOpenGame?: () => void;
+  onOpenGame?: (() => void) | undefined;
 }) {
   const demo = useDemo();
   const messages = channelMessages(demo, "sms").filter(({ kind }) => kind !== "reminder");
@@ -100,11 +101,11 @@ export function SmsMessages({
         <div className="flex-1 space-y-4 overflow-y-auto bg-white px-4 py-5">
           <p className="text-center text-xs text-[#85858b]">iMessage</p>
           <p className="text-center text-[11px] text-[#85858b]">Today 9:41 AM</p>
-          {messages.map(({ subject, body, link }, index) => {
+          {messages.map(({ title, text: body, link }, index) => {
             const text = smsText(body, Boolean(link));
             return (
               <article
-                key={`${subject}-${index}`}
+                key={`${title}-${index}`}
                 className="max-w-[88%] rounded-[1.2rem] rounded-tl-[5px] bg-[#e9e9eb] px-3.5 py-2.5 text-[#111114]"
               >
                 <p className="text-[15px] leading-[1.35]">
@@ -157,9 +158,9 @@ export function EmailMessages({
   variant = "booking",
 }: {
   embedded?: boolean;
-  onBack?: () => void;
-  onOpenGame?: () => void;
-  variant?: "booking" | "mission-progress";
+  onBack?: (() => void) | undefined;
+  onOpenGame?: (() => void) | undefined;
+  variant?: "booking" | "mission-progress" | undefined;
 }) {
   const demo = useDemo();
   const parentFirstName = demo.parentName.split(" ")[0];

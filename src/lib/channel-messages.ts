@@ -1,4 +1,10 @@
-import { dailyPuzzleChannel, formatDate, missionName, type DemoState, type MessageChannel } from "./demo";
+import {
+  dailyPuzzleChannel,
+  formatDate,
+  missionName,
+  type DemoState,
+  type MessageChannel,
+} from "./demo";
 
 export type ChannelMessage = {
   id: string;
@@ -53,16 +59,17 @@ export function channelMessages(state: DemoState, channel: MessageChannel): Chan
     }));
 
   const puzzleChannel = dailyPuzzleChannel(state.preferredChannel);
-  const puzzles: ChannelMessage[] = channel === puzzleChannel
-    ? Array.from({ length: daysUntilDemo(state.demoDate) }, (_, index) => ({
-        id: `daily-puzzle-${index + 1}`,
-        kind: "daily-puzzle" as const,
-        title: `Daily math mission ${index + 1}`,
-        text: `${state.childName}'s ${missionName(state.missions + index + 1)} mission is ready. Keep the streak going before demo day!`,
-        link: "/game-intro",
-        time: "8:00 AM",
-      }))
-    : [];
+  const puzzles: ChannelMessage[] =
+    channel === puzzleChannel
+      ? Array.from({ length: daysUntilDemo(state.demoDate) }, (_, index) => ({
+          id: `daily-puzzle-${index + 1}`,
+          kind: "daily-puzzle" as const,
+          title: `Daily math mission ${index + 1}`,
+          text: `${state.childName}'s ${missionName(state.missions + index + 1)} mission is ready. Keep the streak going before demo day!`,
+          link: "/game-intro",
+          time: "8:00 AM",
+        }))
+      : [];
 
   return [...critical, ...celebrations, ...puzzles];
 }
