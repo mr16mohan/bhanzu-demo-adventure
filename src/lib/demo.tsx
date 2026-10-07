@@ -12,12 +12,17 @@ export type DemoState = {
   missionCelebrations: MissionCelebration[];
   tomorrowReply: boolean;
   missions: number;
+  preferredChannel: PreferredChannel;
 };
+
+export type MessageChannel = "whatsapp" | "email" | "sms";
+export type PreferredChannel = MessageChannel | "none";
 
 export type MissionCelebration = {
   missionNumber: number;
   time: string;
   message: string;
+  channel: MessageChannel;
 };
 
 const ORDINAL_WORDS = ["zeroth", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
@@ -37,6 +42,14 @@ export function missionCelebration(childName: string, missionNumber: number) {
   return `Hey! 🎉 ${childName} completed the ${missionName(missionNumber)} mission! ${encouragement}, ${childName}! ⭐`;
 }
 
+export function appreciationChannel(preferredChannel: PreferredChannel): MessageChannel {
+  return preferredChannel === "none" ? "sms" : preferredChannel;
+}
+
+export function dailyPuzzleChannel(preferredChannel: PreferredChannel): MessageChannel {
+  return preferredChannel === "none" ? "whatsapp" : preferredChannel;
+}
+
 const initial = (): DemoState => {
   const d = new Date();
   d.setDate(d.getDate() + 4);
@@ -52,6 +65,7 @@ const initial = (): DemoState => {
     missionCelebrations: [],
     tomorrowReply: false,
     missions: 0,
+    preferredChannel: "none",
   };
 };
 
@@ -72,7 +86,7 @@ export const formatDate = (d: Date) =>
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(initial);
   const update = useCallback((p: Partial<DemoState>) => setState((s) => ({ ...s, ...p })), []);
-  // Queues the WhatsApp celebration message the instant a win button fires.
+  // Queues the celebration in the selected channel the instant a win button fires.
   const completeMission = useCallback(() => {
     const time = nowTime();
     setState((s) => ({
@@ -85,6 +99,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
             missionNumber: s.missions + 1,
             time,
             message: missionCelebration(s.childName, s.missions + 1),
+            channel: appreciationChannel(s.preferredChannel),
           },
         ],
       }));

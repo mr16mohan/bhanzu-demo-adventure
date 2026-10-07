@@ -3,6 +3,7 @@ import { ArrowLeft, Video, Phone, MoreVertical, Smile, Paperclip, Camera, Mic, C
 import type { ReactNode } from "react";
 import { LogoMark } from "./brand";
 import { formatDate, missionName, useDemo } from "@/lib/demo";
+import { channelMessages } from "@/lib/channel-messages";
 import { cn } from "@/lib/utils";
 
 function Bubble({ out, time, children, actions }: { out?: boolean; time: string; children: ReactNode; actions?: ReactNode }) {
@@ -42,6 +43,9 @@ function Action({ icon, children, onClick }: { icon: ReactNode; children: ReactN
 export function WhatsAppThread({ className }: { className?: string }) {
   const navigate = useNavigate();
   const d = useDemo();
+  const whatsappMessages = channelMessages(d, "whatsapp");
+  const dayBefore = whatsappMessages.find((message) => message.kind === "reminder");
+  const dailyPuzzles = whatsappMessages.filter((message) => message.kind === "daily-puzzle");
   return (
     <div className={cn("flex h-full w-full flex-col", className)}>
       <header className="flex items-center gap-2 bg-wa-header px-2 py-2 text-on-brand">
@@ -78,6 +82,8 @@ export function WhatsAppThread({ className }: { className?: string }) {
           <p className="mt-1">Our teacher will meet {d.childName} live on Zoom.</p>
         </Bubble>
 
+        {dayBefore && <Bubble out time={dayBefore.time}>🔔 {dayBefore.text}</Bubble>}
+
         {d.reminderSet && (
           <Bubble out time="10:03 AM">🔔 Done! We'll remind you 1 hour before the class.</Bubble>
         )}
@@ -91,12 +97,12 @@ export function WhatsAppThread({ className }: { className?: string }) {
           <p className="mt-1">Can you crack your first math mission? ⭐</p>
         </Bubble>
 
-        {d.missionCelebrations.map((celebration, index) => (
+        {d.missionCelebrations.filter((celebration) => celebration.channel === "whatsapp").map((celebration, index, items) => (
           <Bubble
             key={`${celebration.missionNumber}-${celebration.time}`}
             out
             time={celebration.time}
-            actions={index === d.missionCelebrations.length - 1 ? (
+            actions={index === items.length - 1 ? (
               <>
                 <Action icon={<Smartphone className="h-4 w-4" />} onClick={() => navigate({ to: "/app/roadmap" })}>Continue in App</Action>
                 <Action icon={<Moon className="h-4 w-4" />} onClick={() => d.update({ tomorrowReply: true })}>Continue Tomorrow</Action>
@@ -104,6 +110,12 @@ export function WhatsAppThread({ className }: { className?: string }) {
             ) : undefined}
           >
             {celebration.message}
+          </Bubble>
+        ))}
+
+        {dailyPuzzles.map((message) => (
+          <Bubble key={message.id} out time={message.time} actions={<Action icon={<Gamepad2 className="h-4 w-4" />} onClick={() => navigate({ to: "/game-intro" })}>Play today's mission</Action>}>
+            {message.text}
           </Bubble>
         ))}
 
