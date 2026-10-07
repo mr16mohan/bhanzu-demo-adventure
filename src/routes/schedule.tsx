@@ -159,7 +159,7 @@ function Schedule() {
               </div>
               <h2 className="mt-4 text-2xl font-semibold text-navy">Demo scheduled!</h2>
               <p className="mt-2 text-muted-foreground">
-                We've sent the details to Email, SMS &amp; Watsapp, {d.parentName.split(" ")[0]}.
+                We've sent the details to Email, SMS &amp; Whatsapp, {d.parentName.split(" ")[0]}.
               </p>
               <div className="mt-6 space-y-2 rounded-2xl bg-navy-soft p-4 text-left text-sm">
                 <p className="font-semibold text-navy">
