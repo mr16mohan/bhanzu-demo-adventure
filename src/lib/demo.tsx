@@ -86,7 +86,7 @@ export const formatDate = (d: Date) =>
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(initial);
   const update = useCallback((p: Partial<DemoState>) => setState((s) => ({ ...s, ...p })), []);
-  // Queues the WhatsApp celebration message the instant a win button fires.
+  // Queues the celebration in the selected channel the instant a win button fires.
   const completeMission = useCallback(() => {
     const time = nowTime();
     setState((s) => ({

@@ -4,7 +4,7 @@ import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
-import { missionCelebration, missionName } from "@/lib/demo";
+import { appreciationChannel, dailyPuzzleChannel, missionCelebration, missionName } from "@/lib/demo";
 import { SCHEDULE_BENEFITS } from "@/routes/schedule";
 
 function renderAt(path: string) {
@@ -53,5 +53,18 @@ describe("Demo rules", () => {
 
   it("uses the matching mission name in celebration messages", () => {
     expect(missionCelebration("Aarav", 2)).toContain("completed the second mission");
+  });
+
+  it("defaults skipped appreciation messages to SMS", () => {
+    expect(appreciationChannel("none")).toBe("sms");
+  });
+
+  it("defaults skipped daily puzzle messages to WhatsApp", () => {
+    expect(dailyPuzzleChannel("none")).toBe("whatsapp");
+  });
+
+  it("uses the selected channel for both targeted message types", () => {
+    expect(appreciationChannel("email")).toBe("email");
+    expect(dailyPuzzleChannel("email")).toBe("email");
   });
 });
