@@ -93,6 +93,9 @@ export function WhatsAppThread({
 }) {
   const navigate = useNavigate();
   const d = useDemo();
+  const whatsappMessages = channelMessages(d, "whatsapp");
+  const dayBefore = whatsappMessages.find((message) => message.kind === "reminder");
+  const dailyPuzzles = whatsappMessages.filter((message) => message.kind === "daily-puzzle");
   return (
     <div className={cn("flex h-full w-full flex-col", className)}>
       <header className="flex items-center gap-2 bg-wa-header px-2 py-2 text-on-brand">
@@ -153,6 +156,8 @@ export function WhatsAppThread({
           </p>
           <p className="mt-1">Our teacher will meet {d.childName} live on Zoom.</p>
         </Bubble>
+
+        {dayBefore && <Bubble out time={dayBefore.time}>🔔 {dayBefore.text}</Bubble>}
 
         {d.reminderSet && (
           <Bubble out time="10:03 AM">

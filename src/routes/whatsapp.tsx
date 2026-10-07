@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { WhatsAppThread } from "@/components/WhatsAppThread";
+import { PhoneShell } from "@/components/PhoneShell";
 
 export const Route = createFileRoute("/whatsapp")({
   head: () => ({
@@ -12,11 +13,5 @@ export const Route = createFileRoute("/whatsapp")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => (
-    <div className="flex h-dvh justify-center bg-wa-bar">
-      <div className="h-full w-full max-w-[520px] shadow-2xl">
-        <WhatsAppThread />
-      </div>
-    </div>
-  ),
+  component: () => <PhoneShell app={false}><WhatsAppThread /></PhoneShell>,
 });
