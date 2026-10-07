@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Derive mission labels and celebration copy from shared demo-state helpers so every screen stays synchronized with progress.
+- Derive WhatsApp, SMS, and email content from one shared channel-message model so critical and targeted delivery rules cannot drift.
