@@ -10,9 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChannelPreferenceRouteImport } from './routes/channel-preference'
+import { Route as EmailRouteImport } from './routes/email'
 import { Route as GameRouteImport } from './routes/game'
 import { Route as GameIntroRouteImport } from './routes/game-intro'
+import { Route as PhoneHomeRouteImport } from './routes/phone-home'
 import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as SmsRouteImport } from './routes/sms'
 import { Route as WhatsappRouteImport } from './routes/whatsapp'
 import { Route as WinRouteImport } from './routes/win'
 import { Route as AppProgressRouteImport } from './routes/app.progress'
@@ -21,6 +25,16 @@ import { Route as AppRoadmapRouteImport } from './routes/app.roadmap'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChannelPreferenceRoute = ChannelPreferenceRouteImport.update({
+  id: '/channel-preference',
+  path: '/channel-preference',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailRoute = EmailRouteImport.update({
+  id: '/email',
+  path: '/email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GameRoute = GameRouteImport.update({
@@ -33,9 +47,19 @@ const GameIntroRoute = GameIntroRouteImport.update({
   path: '/game-intro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhoneHomeRoute = PhoneHomeRouteImport.update({
+  id: '/phone-home',
+  path: '/phone-home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
   path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmsRoute = SmsRouteImport.update({
+  id: '/sms',
+  path: '/sms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhatsappRoute = WhatsappRouteImport.update({
@@ -61,9 +85,13 @@ const AppRoadmapRoute = AppRoadmapRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/channel-preference': typeof ChannelPreferenceRoute
+  '/email': typeof EmailRoute
   '/game': typeof GameRoute
   '/game-intro': typeof GameIntroRoute
+  '/phone-home': typeof PhoneHomeRoute
   '/schedule': typeof ScheduleRoute
+  '/sms': typeof SmsRoute
   '/whatsapp': typeof WhatsappRoute
   '/win': typeof WinRoute
   '/app/progress': typeof AppProgressRoute
@@ -71,9 +99,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/channel-preference': typeof ChannelPreferenceRoute
+  '/email': typeof EmailRoute
   '/game': typeof GameRoute
   '/game-intro': typeof GameIntroRoute
+  '/phone-home': typeof PhoneHomeRoute
   '/schedule': typeof ScheduleRoute
+  '/sms': typeof SmsRoute
   '/whatsapp': typeof WhatsappRoute
   '/win': typeof WinRoute
   '/app/progress': typeof AppProgressRoute
@@ -82,9 +114,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/channel-preference': typeof ChannelPreferenceRoute
+  '/email': typeof EmailRoute
   '/game': typeof GameRoute
   '/game-intro': typeof GameIntroRoute
+  '/phone-home': typeof PhoneHomeRoute
   '/schedule': typeof ScheduleRoute
+  '/sms': typeof SmsRoute
   '/whatsapp': typeof WhatsappRoute
   '/win': typeof WinRoute
   '/app/progress': typeof AppProgressRoute
@@ -94,9 +130,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/channel-preference'
+    | '/email'
     | '/game'
     | '/game-intro'
+    | '/phone-home'
     | '/schedule'
+    | '/sms'
     | '/whatsapp'
     | '/win'
     | '/app/progress'
@@ -104,9 +144,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/channel-preference'
+    | '/email'
     | '/game'
     | '/game-intro'
+    | '/phone-home'
     | '/schedule'
+    | '/sms'
     | '/whatsapp'
     | '/win'
     | '/app/progress'
@@ -114,9 +158,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/channel-preference'
+    | '/email'
     | '/game'
     | '/game-intro'
+    | '/phone-home'
     | '/schedule'
+    | '/sms'
     | '/whatsapp'
     | '/win'
     | '/app/progress'
@@ -125,9 +173,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChannelPreferenceRoute: typeof ChannelPreferenceRoute
+  EmailRoute: typeof EmailRoute
   GameRoute: typeof GameRoute
   GameIntroRoute: typeof GameIntroRoute
+  PhoneHomeRoute: typeof PhoneHomeRoute
   ScheduleRoute: typeof ScheduleRoute
+  SmsRoute: typeof SmsRoute
   WhatsappRoute: typeof WhatsappRoute
   WinRoute: typeof WinRoute
   AppProgressRoute: typeof AppProgressRoute
@@ -141,6 +193,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/channel-preference': {
+      id: '/channel-preference'
+      path: '/channel-preference'
+      fullPath: '/channel-preference'
+      preLoaderRoute: typeof ChannelPreferenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/game': {
@@ -157,11 +223,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GameIntroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/phone-home': {
+      id: '/phone-home'
+      path: '/phone-home'
+      fullPath: '/phone-home'
+      preLoaderRoute: typeof PhoneHomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/schedule': {
       id: '/schedule'
       path: '/schedule'
       fullPath: '/schedule'
       preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sms': {
+      id: '/sms'
+      path: '/sms'
+      fullPath: '/sms'
+      preLoaderRoute: typeof SmsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/whatsapp': {
@@ -197,9 +277,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChannelPreferenceRoute: ChannelPreferenceRoute,
+  EmailRoute: EmailRoute,
   GameRoute: GameRoute,
   GameIntroRoute: GameIntroRoute,
+  PhoneHomeRoute: PhoneHomeRoute,
   ScheduleRoute: ScheduleRoute,
+  SmsRoute: SmsRoute,
   WhatsappRoute: WhatsappRoute,
   WinRoute: WinRoute,
   AppProgressRoute: AppProgressRoute,

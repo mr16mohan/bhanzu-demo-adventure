@@ -47,6 +47,7 @@ function Intro() {
         >
           <Play className="h-9 w-9 fill-current" /> Play
         </Link>
+        <p className="max-w-xs text-xs font-medium text-navy/60">Same mission, works whether opened from WhatsApp, Email, or SMS.</p>
       </div>
     </GameLayout>
   );

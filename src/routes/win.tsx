@@ -23,15 +23,19 @@ const COLORS = ["bg-orange", "bg-gold", "bg-go", "bg-kid-pink", "bg-kid-sky-deep
 
 function Win() {
   const navigate = useNavigate();
-  const { completeMission } = useDemo();
+  const { completeMission, preferredChannel } = useDemo();
   const confetti = useMemo(
     () => Array.from({ length: 60 }, (_, i) => ({ left: (i * 37) % 100, delay: (i % 12) * 0.08, dur: 1.4 + (i % 5) * 0.25, c: COLORS[i % COLORS.length], r: i % 3 })),
     [],
   );
 
-  const finish = (to: "/app/roadmap" | "/whatsapp") => {
-    completeMission(); // queue WhatsApp message immediately
-    navigate({ to });
+  const finish = (to: "/app/roadmap" | "preferred-channel") => {
+    completeMission();
+    if (to === "/app/roadmap") {
+      navigate({ to });
+      return;
+    }
+    navigate({ to: preferredChannel === "email" ? "/email" : preferredChannel === "whatsapp" ? "/whatsapp" : "/sms" });
   };
 
   return (
@@ -61,7 +65,7 @@ function Win() {
           <button onClick={() => finish("/app/roadmap")} className="kid-btn shadow-3d-orange animate-glow flex items-center gap-2 bg-orange px-10 py-4 text-2xl text-on-brand">
             <Rocket className="h-7 w-7" /> Keep Playing
           </button>
-          <button onClick={() => finish("/whatsapp")} className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-8 py-4 text-xl text-navy">
+          <button onClick={() => finish("preferred-channel")} className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-8 py-4 text-xl text-navy">
             <Moon className="h-6 w-6" /> Come back tomorrow
           </button>
         </div>

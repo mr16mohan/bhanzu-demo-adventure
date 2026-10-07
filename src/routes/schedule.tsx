@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarDays, CheckCircle2, Clock, MessageCircle, ShieldCheck } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock, Play, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/brand";
 import { formatDate, useDemo } from "@/lib/demo";
 
@@ -107,12 +107,14 @@ function Schedule() {
                 <p className="flex items-center gap-2 text-foreground"><CalendarDays className="h-4 w-4 text-orange" /> {formatDate(d.demoDate)}</p>
                 <p className="flex items-center gap-2 text-foreground"><Clock className="h-4 w-4 text-orange" /> {d.demoTime} IST</p>
               </div>
-              <Link
-                to="/whatsapp"
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-wa-header py-3.5 font-semibold text-on-brand transition hover:opacity-90 active:scale-[.98]"
-              >
-                <MessageCircle className="h-5 w-5" /> Continue to WhatsApp
-              </Link>
+              <div className="mt-6 border-t pt-5">
+                <p className="font-semibold leading-snug text-navy">Is {d.childName} with you right now? Let them try the first mission!</p>
+                <Link to="/game-intro" className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-orange py-3.5 font-semibold text-on-brand shadow-lg shadow-orange/30 transition hover:bg-orange-deep active:scale-[.98]">
+                  <Play className="h-5 w-5 fill-current" /> Start First Mission
+                </Link>
+                <p className="mt-3 text-xs text-muted-foreground">Not around? No worries, we've sent the link via WhatsApp, Email &amp; SMS.</p>
+                <Link to="/channel-preference" className="mt-4 flex w-full items-center justify-center rounded-xl border-2 border-navy py-3 font-semibold text-navy transition hover:bg-navy-soft active:scale-[.98]">Continue</Link>
+              </div>
               <button onClick={() => d.update({ scheduled: false })} className="mt-3 text-sm text-muted-foreground underline-offset-4 hover:underline">
                 Edit details
               </button>

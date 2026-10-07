@@ -1,5 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
-import { Lock, RotateCw, Share, Smartphone, Tablet } from "lucide-react";
+import { BatteryFull, ChevronLeft, Lock, MoreVertical, RotateCw, Share, Signal, Smartphone, Tablet, Wifi } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { WhatsAppThread } from "./WhatsAppThread";
@@ -39,24 +39,32 @@ export function GameLayout({ children }: { children: ReactNode }) {
         <div
           data-game-view={view}
           className={cn(
-            "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-card transition-[max-width] duration-300 md:rounded-2xl md:border md:shadow-2xl",
+            "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-card transition-[max-width] duration-300 md:border-[7px] md:border-navy md:shadow-2xl",
+            view === "mobile" ? "md:rounded-[2.5rem]" : "md:rounded-2xl",
             view === "mobile" ? "max-w-[430px]" : "max-w-[820px]",
           )}
         >
-          <div className="flex items-center gap-3 border-b bg-secondary px-3 py-2.5">
-            <div className="hidden gap-1.5 md:flex">
-              <span className="h-3 w-3 rounded-full bg-destructive" />
-              <span className="h-3 w-3 rounded-full bg-gold" />
-              <span className="h-3 w-3 rounded-full bg-go" />
-            </div>
-            <div className="flex flex-1 items-center gap-2 rounded-full bg-card px-3 py-1.5 text-sm text-muted-foreground md:mx-auto md:max-w-md">
+          <div className="grid h-8 shrink-0 grid-cols-[1fr_auto_1fr] items-center bg-card px-5 text-[11px] font-bold text-navy">
+            <span>9:41</span>
+            <span className={cn("hidden h-5 rounded-full bg-navy md:block", view === "mobile" ? "w-24" : "w-16")} />
+            <span className="flex items-center justify-end gap-1"><Signal className="h-3 w-3" /><Wifi className="h-3 w-3" /><BatteryFull className="h-4 w-4" /></span>
+          </div>
+          <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border-b bg-secondary px-3 py-2.5">
+            <button onClick={() => router.history.back()} aria-label="Browser back" className="text-muted-foreground"><ChevronLeft className="h-5 w-5" /></button>
+            <div className="flex min-w-0 items-center gap-2 rounded-full bg-card px-3 py-1.5 text-sm text-muted-foreground">
               <Lock className="h-3.5 w-3.5 text-go-deep" />
               <span className="flex-1 truncate"><span className="text-foreground">bhanzu.com</span>/mission</span>
               <button onClick={() => router.invalidate()} aria-label="Refresh"><RotateCw className="h-3.5 w-3.5" /></button>
             </div>
-            <Share className="h-4 w-4 text-muted-foreground md:hidden" />
+            <MoreVertical className="h-5 w-5 text-muted-foreground" />
           </div>
-          <div className="relative flex-1 overflow-y-auto bg-kid-gradient font-kid">{children}</div>
+          <div className="relative min-h-0 flex-1 overflow-y-auto bg-kid-gradient font-kid">{children}</div>
+          <div className="grid h-11 shrink-0 grid-cols-3 place-items-center border-t bg-card text-muted-foreground">
+            <ChevronLeft className="h-5 w-5" />
+            <span className="h-4 w-4 rounded border-2 border-current" />
+            <Share className="h-5 w-5" />
+          </div>
+          <div className="pointer-events-none absolute bottom-1 left-1/2 h-1 w-28 -translate-x-1/2 rounded-full bg-navy/70 md:hidden" />
         </div>
       </main>
     </div>
