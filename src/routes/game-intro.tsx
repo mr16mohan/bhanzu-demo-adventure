@@ -22,13 +22,19 @@ function Intro() {
   const { missions } = useDemo();
   const levelName = missionName(missions + 1);
   return (
-    <GameLayout>
+    <GameLayout interactivePhone>
       <div className="flex min-h-full flex-col items-center justify-center gap-6 px-6 py-10 text-center">
-        <h1 className="animate-pop text-4xl font-extrabold text-navy md:text-5xl">Ready for your {levelName} mission?</h1>
+        <h1 className="animate-pop text-4xl font-extrabold text-navy md:text-5xl">
+          Ready for your {levelName} mission?
+        </h1>
 
         <div className="relative mt-4 h-56 w-64">
           {[10, 40, 70, 25, 58].map((x, i) => (
-            <Star key={i} className="animate-rise absolute bottom-16 h-7 w-7 fill-gold text-gold-deep" style={{ left: `${x}%`, animationDelay: `${i * 0.35}s` }} />
+            <Star
+              key={i}
+              className="animate-rise absolute bottom-16 h-7 w-7 fill-gold text-gold-deep"
+              style={{ left: `${x}%`, animationDelay: `${i * 0.35}s` }}
+            />
           ))}
           {/* treasure chest */}
           <div className="absolute bottom-0 left-1/2 w-44 -translate-x-1/2">
@@ -47,6 +53,9 @@ function Intro() {
         >
           <Play className="h-9 w-9 fill-current" /> Play
         </Link>
+        <p className="text-sm text-navy/70">
+          Same mission, works whether opened from WhatsApp, Email, or SMS.
+        </p>
       </div>
     </GameLayout>
   );

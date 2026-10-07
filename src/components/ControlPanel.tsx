@@ -7,7 +7,7 @@ export function ControlPanel() {
   const navigate = useNavigate();
   const { reset } = useDemo();
   return (
-    <div className="fixed left-3 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-1 rounded-2xl border bg-card/90 p-1.5 shadow-lg backdrop-blur">
+    <div className="fixed left-3 bottom-3 z-50 flex flex-col gap-1 rounded-2xl border bg-card/90 p-1.5 shadow-lg backdrop-blur">
       <button
         onClick={() => router.history.back()}
         className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-medium text-foreground transition hover:bg-muted active:scale-95"

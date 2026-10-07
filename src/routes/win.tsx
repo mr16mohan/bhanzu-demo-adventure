@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Moon, Rocket, Star } from "lucide-react";
 import { GameLayout } from "@/components/GameLayout";
 import { Mascot } from "@/components/brand";
-import { useDemo } from "@/lib/demo";
+import { appreciationChannel, useDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/win")({
   head: () => ({
@@ -23,25 +23,50 @@ const COLORS = ["bg-orange", "bg-gold", "bg-go", "bg-kid-pink", "bg-kid-sky-deep
 
 function Win() {
   const navigate = useNavigate();
-  const { completeMission } = useDemo();
+  const { completeMission, preferredChannel } = useDemo();
+  const missionCompleted = useRef(false);
   const confetti = useMemo(
-    () => Array.from({ length: 60 }, (_, i) => ({ left: (i * 37) % 100, delay: (i % 12) * 0.08, dur: 1.4 + (i % 5) * 0.25, c: COLORS[i % COLORS.length], r: i % 3 })),
+    () =>
+      Array.from({ length: 60 }, (_, i) => ({
+        left: (i * 37) % 100,
+        delay: (i % 12) * 0.08,
+        dur: 1.4 + (i % 5) * 0.25,
+        c: COLORS[i % COLORS.length],
+        r: i % 3,
+      })),
     [],
   );
 
-  const finish = (to: "/app/roadmap" | "/whatsapp") => {
-    completeMission(); // queue WhatsApp message immediately
-    navigate({ to });
+  useEffect(() => {
+    if (missionCompleted.current) return;
+    missionCompleted.current = true;
+    completeMission();
+  }, [completeMission]);
+
+  const finish = (to: "/app-install" | "/whatsapp") => {
+    if (to === "/app-install") {
+      navigate({ to });
+      return;
+    }
+
+    const channel = appreciationChannel(preferredChannel);
+    if (channel === "whatsapp") navigate({ to: "/whatsapp" });
+    else if (channel === "email") navigate({ to: "/email" });
+    else navigate({ to: "/sms" });
   };
 
   return (
-    <GameLayout>
+    <GameLayout interactivePhone showSmsNotification emailMessage="mission-progress">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {confetti.map((p, i) => (
           <span
             key={i}
             className={`animate-confetti absolute top-0 ${p.c} ${p.r === 0 ? "h-3 w-3 rounded-full" : p.r === 1 ? "h-4 w-2" : "h-2 w-4"}`}
-            style={{ left: `${p.left}%`, animationDelay: `${p.delay}s`, animationDuration: `${p.dur}s` }}
+            style={{
+              left: `${p.left}%`,
+              animationDelay: `${p.delay}s`,
+              animationDuration: `${p.dur}s`,
+            }}
           />
         ))}
       </div>
@@ -56,12 +81,20 @@ function Win() {
           ))}
         </div>
         <Mascot happy className="animate-bounce-soft h-32 w-32" />
-        <h1 className="animate-pop text-5xl font-extrabold text-navy md:text-6xl">You're a genius!</h1>
+        <h1 className="animate-pop text-5xl font-extrabold text-navy md:text-6xl">
+          You're a genius!
+        </h1>
         <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row">
-          <button onClick={() => finish("/app/roadmap")} className="kid-btn shadow-3d-orange animate-glow flex items-center gap-2 bg-orange px-10 py-4 text-2xl text-on-brand">
+          <button
+            onClick={() => finish("/app-install")}
+            className="kid-btn shadow-3d-orange animate-glow flex items-center gap-2 bg-orange px-10 py-4 text-2xl text-on-brand"
+          >
             <Rocket className="h-7 w-7" /> Keep Playing
           </button>
-          <button onClick={() => finish("/whatsapp")} className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-8 py-4 text-xl text-navy">
+          <button
+            onClick={() => finish("/whatsapp")}
+            className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-8 py-4 text-xl text-navy"
+          >
             <Moon className="h-6 w-6" /> Come back tomorrow
           </button>
         </div>

@@ -28,7 +28,7 @@ function Game() {
   const correct = pick === ANSWER;
 
   return (
-    <GameLayout>
+    <GameLayout interactivePhone>
       <div key={round} className="flex min-h-full flex-col items-center gap-6 px-5 py-6">
         {/* progress, not a countdown */}
         <div className="flex w-full max-w-lg items-center gap-3">
@@ -81,7 +81,10 @@ function Game() {
 
         <Link
           to="/win"
-          className={cn("kid-btn shadow-3d-go flex items-center gap-2 bg-go px-12 py-4 text-2xl text-on-brand", correct && "animate-glow")}
+          className={cn(
+            "kid-btn shadow-3d-go flex items-center gap-2 bg-go px-12 py-4 text-2xl text-on-brand",
+            correct && "animate-glow",
+          )}
         >
           <Check className="h-8 w-8" strokeWidth={3} /> Completed
         </Link>
@@ -97,7 +100,10 @@ function Game() {
           >
             <RotateCcw className="h-5 w-5" /> Redo
           </button>
-          <button onClick={() => setHelp(true)} className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-5 py-2.5 text-lg text-navy">
+          <button
+            onClick={() => setHelp(true)}
+            className="kid-btn shadow-3d-soft flex items-center gap-2 bg-card px-5 py-2.5 text-lg text-navy"
+          >
             <HelpCircle className="h-5 w-5" /> Need Help
           </button>
         </div>
